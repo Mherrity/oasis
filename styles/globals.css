@@ -1,10 +1,13 @@
 html,
+
 body {
   padding: 0;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
+
+
 
 a {
   color: inherit;
@@ -14,3 +17,13 @@ a {
 * {
   box-sizing: border-box;
 }
+
+@font-face {
+  font-family: 'suisee';
+  src: url("../public/fonts/Suisse BP Int'l Light.otf");
+ }
+
+ @font-face {
+  font-family: 'suisee-medium';
+  src: url("../public/fonts/Suisse BP Int'l Medium.otf");
+ }
