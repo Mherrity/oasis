@@ -23,7 +23,9 @@ const NavBar = () => (
 
             <div style={{fontFamily:'suisee-medium', fontSize:'12px'}}> OASIS </div>
 
-            <Connect/>
+            <div style={{cursor:'pointer'}}>
+             CONNECT
+            </div>
     </div>
 )
 
