@@ -7,9 +7,9 @@ import {Solana} from '../components'
 function MyApp({ Component, pageProps }: AppProps) {
   return (
   
-      // <Solana.WalletConnect>
+      <Solana.WalletConnect>
         <Component {...pageProps} />
-      // </Solana.WalletConnect>
+     </Solana.WalletConnect>
   
   )
 }
