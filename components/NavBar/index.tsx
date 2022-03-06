@@ -1,4 +1,3 @@
-import { Connect } from "./connect"
 
 const NavBar = () => (
     <div style={{top:0,
