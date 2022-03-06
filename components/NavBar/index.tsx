@@ -13,7 +13,8 @@ const NavBar = () => (
                         fontFamily: 'suisee',
                        // borderBottom : '0.5px solid black'
                         background: 'rgba(255, 255, 255, 0.5)',
-                        backdropFilter: 'blur(25px)'
+                        backdropFilter: 'blur(25px)',
+                        zIndex: 1000
                         
     }}>
             <div style={{cursor:'pointer'}}>

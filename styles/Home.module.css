@@ -108,6 +108,25 @@
   margin-left: 0.5rem;
 }
 
+.inputBox {
+  width: '500px';
+  font-size: '12px';
+  border: 'none';
+  background : 'transparent';
+  outline: 'none';
+  font-family: 'suisee';
+}
+
+.fade-in-text {
+ transition: opacity 1s ease;
+}
+
+.fade-out-text {
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+
 @media (max-width: 600px) {
   .grid {
     width: 100%;
