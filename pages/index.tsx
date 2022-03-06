@@ -11,7 +11,7 @@ import { NavBar } from '../components';
 const drawImage = (src:string, context:any,x:number,y:number, canvas:any) => {
     let base_image = new Image();
     base_image.src = src;
-    const size = 200 + Math.random() * 300
+    const size = 150 + Math.random() * 150
     base_image.onload = function(){
       context.drawImage(base_image, x - size/2, y - size/2, size,size);
     }
