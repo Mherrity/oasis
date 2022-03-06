@@ -6,14 +6,6 @@ import { SupportedChains } from '../../types'
 import { gsap } from "gsap";
 import useForm from '../../utls/useForm'
 
-// const absoluteCenter = {
-//     position: 'absolute'; 
-//     left: 0; 
-//     right: 0; 
-//     margin-left: auto; 
-//     margin-right: auto; 
-//     width: 100px; /* Need a specific value to work */
-// }
 
 const inputDivStyles = {
 width: '600px',
@@ -40,7 +32,6 @@ const inputStyles = {
 const labelStyle = {
     display: 'inline-block',
     width: '100px',
-    textalign: 'right',
     color: 'rgba(0, 0, 0, 0.25)'
 }
 
@@ -50,7 +41,6 @@ const addAnotherDivStyle = {
     textalign : 'left',
     fontFamily : 'suisee',
     cursor: 'pointer',
-   // marginTop: '16px'
 }
 
 const viewButtonStyle = {
@@ -94,7 +84,7 @@ export const SearchAddress = () =>{
 
     return (
     
-    <form onSubmit={handleSubmit}>
+    <form style={{marginBottom:'50vh'}} onSubmit={handleSubmit}>
 
     {addyInput}
 
@@ -103,6 +93,7 @@ export const SearchAddress = () =>{
      <View onClick={()=>null}visible={add}/>
 
     </form>
+    
 )
 }
 
@@ -141,7 +132,7 @@ const InputBox = ({updateForm,setAdd,name}:InputProps) => {
     }
 
     useEffect(() => {
-        gsap.to(divRef.current, {opacity: "+=1" });
+        gsap.to(divRef.current, {duration: 2, opacity: "+=1" });
       });
 
     let addtlStyle = chainOn?  {opacity:1, transition: 'opacity 1s ease'} : {opacity:0, transition: 'opacity 1s ease'}
@@ -155,8 +146,9 @@ const InputBox = ({updateForm,setAdd,name}:InputProps) => {
                onFocus={(e) => e.target.placeholder = '' }
                spellCheck="false"
                placeholder='YOUR ADDRESS'/>
-        <label style={{...labelStyle,
-                        ...addtlStyle
+        <label  style={{...labelStyle,
+                        ...addtlStyle,
+                        textAlign : 'right'
                     }} >{chain!=null?chain:''}</label>
     </div>
     )

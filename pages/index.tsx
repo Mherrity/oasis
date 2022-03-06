@@ -99,7 +99,7 @@ const Home: NextPage = () => {
     style={{top:0, left: 0, height:'100vh', width:'100vw', position:'absolute', zIndex : 600,
     display : 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     flexDirection : 'column'
     }} > 
        <SearchAddress/>
