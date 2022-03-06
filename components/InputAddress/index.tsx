@@ -54,7 +54,13 @@ const viewButtonStyle = {
     border: 'none',
     background: 'none'
 }
-export const SearchAddress = () =>{
+
+interface SearchAddressProps {
+    ctx : any,
+    setDrawing : any
+}
+
+export const SearchAddress = ({ctx, setDrawing}:SearchAddressProps ) =>{
     /* Submit Logic */
     const submit = (form:any)=>console.log({form}) 
 
@@ -67,6 +73,8 @@ export const SearchAddress = () =>{
               setAdd={setAdd}
               name='1'
               key = '1'
+              ctx = {ctx}
+              setDrawing={setDrawing}
               />
     ])
 
@@ -100,10 +108,12 @@ export const SearchAddress = () =>{
 interface InputProps {
     updateForm : any,
     setAdd : any,
-    name: string
+    name: string,
+    ctx? : any,
+    setDrawing? : any
 }   
 
-const InputBox = ({updateForm,setAdd,name}:InputProps) => {
+const InputBox = ({updateForm,setAdd,name,ctx,setDrawing}:InputProps) => {
     
     const [chain, setChain] = useState<SupportedChains | null>() //which chain is this address
     const [chainOn, setChainOn] = useState(false)
@@ -143,8 +153,19 @@ const InputBox = ({updateForm,setAdd,name}:InputProps) => {
                onChange={handleChange} 
                style={{...inputStyles}} 
                type='text'
-               onFocus={(e) => e.target.placeholder = '' }
+               onFocus={(e) => { e.target.placeholder = ''
+                                if(ctx){
+                                 let canv = ctx.current.getContext('2d')
+                                 canv.beginPath();
+                                 canv.rect(0, 0, 5000, 1000);
+                                 canv.fillStyle = 'rgba(255,255,255,1)'
+                                 canv.fill()
+                                 setDrawing(false)
+                                }
+                                
+             } }
                spellCheck="false"
+               autoComplete = "off"
                placeholder='YOUR ADDRESS'/>
         <label  style={{...labelStyle,
                         ...addtlStyle,

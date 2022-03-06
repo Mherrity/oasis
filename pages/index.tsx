@@ -32,6 +32,7 @@ const Home: NextPage = () => {
     enterDelay: 100,
     leaveDelay: 100,
   })
+  const [drawing, setDrawing] = React.useState(true);
   const [prevMouse,setPrevMouse] = React.useState({x:0,y:0})
   const [dimesions,setDimensions]  = React.useState({x:0,y:0})
   const renderFrame = (dimesions:any) => {
@@ -65,7 +66,7 @@ const Home: NextPage = () => {
   React.useEffect(()=>{
   const {pageX, pageY,x,y} = mouse
   //Do we have null values
-  if(pageX != null){
+  if(pageX != null && drawing == true){
   const distance = calcDistance({x:prevMouse.x,y:prevMouse.y},
                                 {x:pageX!, y: pageY!})
   if(distance > 40){
@@ -102,7 +103,7 @@ const Home: NextPage = () => {
     justifyContent: 'flex-end',
     flexDirection : 'column'
     }} > 
-       <SearchAddress/>
+       <SearchAddress ctx={ref} setDrawing={setDrawing}/>
     </div>
 
     <canvas ref={ref} height={dimesions.y}
