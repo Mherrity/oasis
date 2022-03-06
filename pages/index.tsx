@@ -51,12 +51,12 @@ const Home: NextPage = () => {
                                 {x:pageX!, y: pageY!})
   if(distance > 40){
     setPrevMouse({x:pageX!,y:pageY!}) //updating prevmouse position
-    setImageIndex(updateIndex(nftDataList,imageIndex))
+    // setImageIndex(updateIndex(nftDataList,imageIndex))
     if(!loading){
-    const src = nftDataList[imageIndex].image
+    const index =  Math.floor( Math.random() * nftImages.length )
     if(ref!=null && ref.current!=null){
     //@ts-ignore
-    drawImage(nftImages[imageIndex],ref.current.getContext('2d'), x,y, ref.current)
+    drawImage(nftImages[index],ref.current.getContext('2d'), x,y, ref.current)
     }
   }
   }
