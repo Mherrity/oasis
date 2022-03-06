@@ -40,14 +40,14 @@ const inputStyles = {
 const labelStyle = {
     display: 'inline-block',
     width: '100px',
-    textAlign: 'right',
+    textalign: 'right',
     color: 'rgba(0, 0, 0, 0.25)'
 }
 
 const addAnotherDivStyle = {
     width: '600px',
     fontSize : '12px',
-    textAlign : 'left',
+    textalign : 'left',
     fontFamily : 'suisee',
     cursor: 'pointer',
    // marginTop: '16px'
@@ -57,7 +57,7 @@ const viewButtonStyle = {
     width: '600px',
     fontSize : '12px',
     fontFamily : 'suisee-medium',
-    textAlign : 'center',
+    textalign : 'center',
     alignSelf: 'auto',
     cursor : 'pointer',
     marginTop: '24px',
@@ -100,7 +100,7 @@ export const SearchAddress = () =>{
 
      <AddAnother visible={add} onClick={addInput}/>
 
-     <View visible={add}/>
+     <View onClick={()=>null}visible={add}/>
 
     </form>
 )
