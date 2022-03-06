@@ -8,13 +8,12 @@ import { calcDistance, updateIndex } from '../utls/math';
 import { NavBar } from '../components';
 
 
-const drawImage = (src:string, context:any,x:number,y:number, canvas:any) => {
-    let base_image = new Image();
-    base_image.src = src;
+const drawImage = (img: typeof Image, context:any,x:number,y:number, canvas:any) => {
+  
     const size = 150 + Math.random() * 150
-    base_image.onload = function(){
-      context.drawImage(base_image, x - size/2, y - size/2, size,size);
-    }
+   
+    context.drawImage(img, x - size/2, y - size/2, size,size);
+    
   }
 
 
@@ -23,7 +22,7 @@ const drawImage = (src:string, context:any,x:number,y:number, canvas:any) => {
 const Home: NextPage = () => {
   const { connection } = useConnection();
   const { publicKey, sendTransaction } = useWallet();
-  const {loading,nftDataList} = Utils.Solana.useNFTs(
+  const {loading,nftDataList, nftImages} = Utils.Solana.useNFTs(
       'Ah2Z2JTiyNxrMgC87dAr94eB5wXA4K1zegCTkqFroFP1'
     //publicKey?.toString()
     ,connection)
@@ -50,14 +49,14 @@ const Home: NextPage = () => {
   if(pageX != null){
   const distance = calcDistance({x:prevMouse.x,y:prevMouse.y},
                                 {x:pageX!, y: pageY!})
-  if(distance > 50){
+  if(distance > 40){
     setPrevMouse({x:pageX!,y:pageY!}) //updating prevmouse position
     setImageIndex(updateIndex(nftDataList,imageIndex))
     if(!loading){
     const src = nftDataList[imageIndex].image
     if(ref!=null && ref.current!=null){
     //@ts-ignore
-    drawImage(src,ref.current.getContext('2d'), x,y, ref.current)
+    drawImage(nftImages[imageIndex],ref.current.getContext('2d'), x,y, ref.current)
     }
   }
   }

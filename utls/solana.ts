@@ -28,6 +28,7 @@ export const getAllNftData = async (provider: Connection, publicKey : string) =>
 export const useNFTs = (pubKey : string | undefined, connection: Connection) => {
     const [loading, setLoading] = useState(true);
     const [nftDataList, setNFTDataList] = <any>useState([]);
+    const [nftImages, setNFTImages] = useState<any>();
     useEffect(()=>{
 
     if(pubKey==undefined){return} // if pubkey is null return nothing
@@ -42,6 +43,13 @@ export const useNFTs = (pubKey : string | undefined, connection: Connection) => 
             let jsonData =  await fetch(data.uri) 
             return await jsonData.json()
         } ) )
+        const images = parsedNFTs.map(({image})=>{
+          let img =  new Image()
+          img.src = image
+          return img
+        }
+        )
+        setNFTImages(images)
         setNFTDataList(parsedNFTs)
         setLoading(false)
     }
@@ -49,5 +57,5 @@ export const useNFTs = (pubKey : string | undefined, connection: Connection) => 
     },
     [pubKey])
 
-    return {loading, nftDataList}
+    return {loading, nftDataList, nftImages}
 }
