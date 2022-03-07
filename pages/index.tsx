@@ -9,6 +9,7 @@ import { NavBar } from '../components';
 import { SearchAddress } from '../components/InputAddress';
 import Canvas from '../components/Canvas'
 import { useRouter } from 'next/router'
+import { ClearCanvas } from '../utls/drawing';
 
 
 const mouseRefDivStyling = {
@@ -38,37 +39,6 @@ const Home: NextPage = () => {
   const Router = useRouter();
   const {addresses} = Router.query
 
-
-  React.useEffect(()=>{
-
-    const AllAddy = async (addresses:any) =>{
-      const nftsPreFlat = await Promise.all(addresses.map(async (addy:string)=>Utils.Solana.parseNfts(addy,connection)))
-      
-      //@ts-ignore
-      const nfts = [].concat.apply( [], nftsPreFlat);
-      
-      setNFTImages(nfts)
-      setDrawing(true)
-      setLoading(false)
-    }
-
-    const NewImage = async () => {
-      const randomAddy = NFTList[ Math.floor( Math.random() * NFTList.length ) ]
-      const aw = await Utils.Solana.parseNfts(randomAddy,connection)
-      setNFTImages(aw)
-      setLoading(false)
-    }
-
-    if(typeof addresses == 'string'){
-      let allAddresses = addresses.split(',')
-      AllAddy(allAddresses)
-    }
-    else{
-      NewImage()
-    }
-  },[addresses])
-   
-
   const ref = React.useRef(null) //for canvas
 
   const MouseRef = React.useRef(null) //for mouse
@@ -80,6 +50,39 @@ const Home: NextPage = () => {
   const [drawing, setDrawing] = React.useState(true); //controlling drawing state
 
   const [dimesions,setDimensions]  = React.useState({x:0,y:0}); // setting dimensions
+
+
+  React.useEffect(()=>{
+    
+
+    const AllAddy = async (addresses:any) =>{
+      const nftsPreFlat = await Promise.all(addresses.map(async (addy:string)=>Utils.Solana.parseNfts(addy,connection)))
+      //@ts-ignore
+      const nfts = [].concat.apply( [], nftsPreFlat);
+      setNFTImages(nfts)
+      setDrawing(true)
+      setLoading(false)
+    }
+
+    const NewImage = async () => {
+      ClearCanvas(ref,setDrawing)
+      setDrawing(false)
+      const randomAddy = NFTList[ Math.floor( Math.random() * NFTList.length ) ]
+      const aw = await Utils.Solana.parseNfts(randomAddy,connection)
+      setNFTImages(aw)
+      setLoading(false)
+      setDrawing(true)
+    }
+
+    if(typeof addresses == 'string'){
+      let allAddresses = addresses.split(',')
+      AllAddy(allAddresses)
+    }
+    else{
+      NewImage()
+    }
+  },[addresses])
+   
 
   const search = (addresses:string) => {
     Router.push({

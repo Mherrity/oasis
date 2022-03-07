@@ -8,6 +8,7 @@ import useForm from '../../utls/useForm'
 import Image from 'next/image'
 import { PublicKey } from '@solana/web3.js';
 import web3 from 'web3'
+import { ClearCanvas } from '../../utls/drawing';
 
 const InputDivDiv = {
 width: '600px',
@@ -263,17 +264,7 @@ const InputBox = ({updateForm,setAdd,name,ctx,setDrawing,setErr,addAddy,maxKey}:
                onChange={handleChange} 
                style={{...inputStyles}} 
                type='text'
-               onFocus={(e) => { 
-                                if(ctx){
-                                 let canv = ctx.current.getContext('2d')
-                                 canv.beginPath();
-                                 canv.rect(0, 0, 5000, 1000);
-                                 canv.fillStyle = 'rgba(255,255,255,1)'
-                                 canv.fill()
-                                 setDrawing(false)
-                                }
-                                
-             } }
+               onFocus={ctx? ()=>ClearCanvas(ctx,setDrawing) : ()=>null }
                spellCheck="false"
                autoComplete = "off"
                placeholder='ENTER ADDRESS'/>

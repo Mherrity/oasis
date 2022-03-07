@@ -1,5 +1,7 @@
-
-const NavBar = () => (
+import { useRouter } from "next/router"
+const NavBar = () =>{
+const router = useRouter()
+return    (
     <div style={{top:0,
                         left:0,
                         width:'100vw', 
@@ -17,7 +19,7 @@ const NavBar = () => (
                         zIndex: 1000
                         
     }}>
-            <div style={{cursor:'pointer'}}>
+            <div style={{cursor:'pointer'}} onClick={()=>router.push('/', {query: {addresses : null}} )}>
              SEARCH
             </div>
 
@@ -28,5 +30,6 @@ const NavBar = () => (
             </div>
     </div>
 )
+}
 
 export default NavBar
