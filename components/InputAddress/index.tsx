@@ -179,7 +179,7 @@ export const SearchAddress = ({ctx, setDrawing}:SearchAddressProps ) =>{
 
      <AddAnother visible={add} onClick={addCheck} err={err}/>
 
-     <View onClick={()=>null}visible={add}/>
+     <View onClick={()=>null} visible={add}/>
 
     </form>
     
@@ -304,7 +304,7 @@ const InputBox = ({updateForm,setAdd,name,ctx,setDrawing,setErr,addAddy,maxKey}:
 interface AddProps {
     visible : boolean,
     onClick : any,
-    err : boolean
+    err? : boolean
 }
 
 const AddAnother = ({visible, onClick, err}: AddProps) =>{ 
