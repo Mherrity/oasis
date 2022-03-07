@@ -59,3 +59,22 @@ export const useNFTs = (pubKey : string | undefined, connection: Connection) => 
 
     return {loading, nftDataList, nftImages}
 }
+
+
+export const parseNfts = async (addy:string, connection:Connection) => {
+    //Getting all NFT data 
+    const nfts = await getAllNftData(connection, addy);
+    if(nfts==null){return []}
+    //pasrsing all Metadata
+    const parsedNFTs = await Promise.all( nfts!.map(async({data})=>{
+        let jsonData =  await fetch(data.uri) 
+        return await jsonData.json()
+    } ) )
+    const images = parsedNFTs.map(({image})=>{
+      let img =  new Image()
+      img.src = image
+      return img
+    }
+    )
+   return images.filter((img)=> img)
+}

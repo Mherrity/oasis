@@ -74,12 +74,17 @@ const viewButtonStyle = {
 
 interface SearchAddressProps {
     ctx : any,
-    setDrawing : any
+    setDrawing : any,
+    search : (e:string)=>void
 }
 
-export const SearchAddress = ({ctx, setDrawing}:SearchAddressProps ) =>{
+export const SearchAddress = ({ctx, setDrawing, search}:SearchAddressProps ) =>{
     /* Submit Logic */
-    const submit = (form:any)=>console.log({form}) 
+    const submit = (form:any)=>{
+       const addresses =  Object.keys(form).map((key)=>form[key]).join(',')
+       search(addresses)
+    }
+    
 
     const [add, setAdd] = useState(false)
     const {form, updateForm, handleSubmit} = useForm(submit)

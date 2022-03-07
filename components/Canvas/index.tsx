@@ -28,7 +28,8 @@ interface CanvasProps {
     const [prevMouse, setPrevMouse] = React.useState({x:0,y:0})
 
     React.useEffect(()=>{
-
+        console.log({mouse})
+        console.log('to')
         const {pageX, pageY,x,y} = mouse
 
         //Do we have null values
@@ -36,13 +37,17 @@ interface CanvasProps {
         //Getting mouse movement
         const distance = calcDistance({x:prevMouse.x,y:prevMouse.y},
                                         {x:pageX!, y: pageY!})
-        
+        console.log({distance})
         //if greater than 40 
         if(distance > 40){
-            setPrevMouse({x:pageX!,y:pageY!}) //updating prevmouse position
 
-            if(!loading && canvasRef!=null && canvasRef.current!=null){
+            setPrevMouse({x:pageX!,y:pageY!}) //updating prevmouse position
+            console.log({loading})
+            if(!loading && canvasRef!=null && canvasRef.current!=null && nftImages.length > 0 ){
+            
             const index =  Math.floor( Math.random() * nftImages.length )
+            console.log({index})
+            console.log({nftImages})
             //@ts-ignore
             drawImage(nftImages[index],canvasRef.current.getContext('2d'), x,y, dimensions)  
                     } 
