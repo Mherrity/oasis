@@ -1,4 +1,4 @@
-import type { NextPage } from 'next'
+import type { GetServerSidePropsContext, NextPage } from 'next'
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import * as Utils from '../utls'
 import { Metaplex } from '../types';
@@ -12,32 +12,30 @@ import { useRouter } from 'next/router'
 import { ClearCanvas } from '../utls/drawing';
 
 
-const mouseRefDivStyling = {
-  top:0,
-left: 0,
-height:'100vh', 
-width:'100vw', 
-position:'absolute', 
-zIndex : 600,
-display : 'flex',
-alignItems: 'center',
-justifyContent: 'flex-end',
-flexDirection : 'column'
-}
-
 
 const NFTList = ['Ah2Z2JTiyNxrMgC87dAr94eB5wXA4K1zegCTkqFroFP1','Ah2Z2JTiyNxrMgC87dAr94eB5wXA4K1zegCTkqFroFP1']
 
+interface pageProps {
+  baseURL : string
+}
 
+export async function getServerSideProps(context : GetServerSidePropsContext ) {
+  const {req, query} = context
+  const host = req.headers.host
+  const prefix = host == 'localhost:3000' ? 'http://' : 'https://'
+  return {
+    props: { baseURL : prefix + host}
+  }
+}
 
-
-const Home: NextPage = () => {
+const Home = ({baseURL} : pageProps) => {
   const { connection } = useConnection();
   const { publicKey, sendTransaction } = useWallet();
   const [nftsImages,setNFTImages] = React.useState<any>([]);
   const [loading, setLoading] = React.useState(true)
   const Router = useRouter();
   const {addresses} = Router.query
+  console.log({pathname: Router.pathname})
 
   const ref = React.useRef(null) //for canvas
 
@@ -56,7 +54,8 @@ const Home: NextPage = () => {
     
 
     const AllAddy = async (addresses:any) =>{
-      const nftsPreFlat = await Promise.all(addresses.map(async (addy:string)=>Utils.Solana.parseNfts(addy,connection)))
+      const nftsPreFlat = await Promise.all(addresses.map(async (addy:string)=>
+                                            Utils.Solana.getImages(addy,connection,baseURL)))
       //@ts-ignore
       const nfts = [].concat.apply( [], nftsPreFlat);
       setNFTImages(nfts)
@@ -68,7 +67,7 @@ const Home: NextPage = () => {
       ClearCanvas(ref,setDrawing)
       setDrawing(false)
       const randomAddy = NFTList[ Math.floor( Math.random() * NFTList.length ) ]
-      const aw = await Utils.Solana.parseNfts(randomAddy,connection)
+      const aw = await Utils.Solana.getImages(randomAddy,connection,baseURL)
       setNFTImages(aw)
       setLoading(false)
       setDrawing(true)
@@ -144,10 +143,5 @@ console.log({loading})
   </>
   )
 }
-
-
-
-
-
 
 export default Home

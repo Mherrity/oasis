@@ -44,12 +44,17 @@ interface CanvasProps {
             setPrevMouse({x:pageX!,y:pageY!}) //updating prevmouse position
             console.log({loading})
             if(!loading && canvasRef!=null && canvasRef.current!=null && nftImages.length > 0 ){
-            
-            const index =  Math.floor( Math.random() * nftImages.length )
-            console.log({index})
-            console.log({nftImages})
+            let loaded = false 
+            let img: HTMLImageElement
+            while(loaded==false){
+            let index =  Math.floor( Math.random() * nftImages.length )
+            img = nftImages[index]
+            loaded = img.complete && img.naturalHeight!=0
+            }
             //@ts-ignore
-            drawImage(nftImages[index],canvasRef.current.getContext('2d'), x,y, dimensions)  
+            console.log({img})
+            //@ts-ignore
+            drawImage(img,canvasRef.current.getContext('2d'), x,y, dimensions)  
                     } 
                 }
             }
