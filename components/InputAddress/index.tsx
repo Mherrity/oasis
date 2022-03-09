@@ -140,13 +140,14 @@ export const SearchAddress = ({ctx, setDrawing, search}:SearchAddressProps ) =>{
 
         if(address.substring(0,2)=='0x'){
             if(web3.utils.isAddress(address)){
-                console.log('ture')
+                //Do nothing
             }
             else{
                 error = 'INVALID ADDRESS'
             }
         }
         else{
+            //this will throw an error if not valid Solana adress
             try{
                 new PublicKey(address)
             }
