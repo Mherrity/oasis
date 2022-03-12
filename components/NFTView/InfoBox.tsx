@@ -7,18 +7,19 @@ interface InfoBoxProps {
 }
 
 const InfoBox = ({data}:InfoBoxProps) => {
-    const {name,attributes,description,collection} = data
+    console.log({data})
+    const {name,attributes,description,collection, human_owner_name} = data
+
     return (
         <>
         <SpaceBarText/>
         <NameDisplay name={name}/>
-        <OwnedBy/>
+        <OwnedBy human_readable_name={human_owner_name} />
         <Border/>
         <Description description={description}/>
         <Header>Traits</Header>
-        <Traits attributes={attributes} />
+        <Traits attributes={attributes || []} />
         <Header>More</Header>
- 
         </>
     )
 }
@@ -30,15 +31,15 @@ const NameDisplay = ({name}:any) => <div style={{fontSize:'12px', fontFamily:'su
                                     {name}
                                     </div>
 
-const OwnedBy = () => <div style={{fontSize:'12px', fontFamily:'suisee', marginBottom:'10px'}}>
-Owned By MNIRPRJCTS.sol
+const OwnedBy = ({human_readable_name}:any) => <div style={{fontSize:'12px', fontFamily:'suisee', marginBottom:'10px'}}>
+{`Owned By ${human_readable_name}`}
 </div>
 
 const Border = () => <div style={{width:'100%', borderBottom: '0.5px solid #000000',marginBottom:'10px'}}></div>
 
 const Description = ({description}:any) => <div style={{fontSize:'12px', fontFamily:'suisee',marginBottom:'10px'}}>{description}</div>
 
-const Header = ({children}:any) => <div style={{width:'100%', borderBottom: '0.5px solid #000000'}}>
+const Header = ({children}:any) => <div style={{ fontSize: '12px', width:'100%', borderBottom: '0.5px solid #000000', marginBottom: '10px'}}>
     {children}
     <div style={{float:'right'}}> - </div>
 </div>
@@ -46,7 +47,7 @@ const Header = ({children}:any) => <div style={{width:'100%', borderBottom: '0.5
 interface TraitProps {attributes:Attribute[]}
 
 const Traits = ({attributes}:TraitProps) => (
-    <div>
+    <div style={{display: 'flex', flexDirection:'row', flexWrap:'wrap', rowGap: '10px', columnGap: '10px', marginBottom: '10px'}}>
         {attributes.map( (props,index)=> (<TraitBox key={index} {...props} />)) }
     </div>
 )
@@ -57,12 +58,26 @@ const TraitBox = ({trait_type,value}:Attribute) => <div style={{background: 'rgb
                                                                 backdropFilter: 'blur(25px)',
                                                                 borderRadius: '15px',
                                                                 width: 'auto',
+                                                                padding: '6px 8px 6px 8px',
                                                                 fontSize: '12px',
                                                                 fontFamily:'suisee',
-                                                                display: 'flex'
+                                                                display: 'inline-block',
+                                                                justifyContent: 'space-around',
+                                                                alignItems : 'space-around'
                                                                 }}>
-                                                              &nbsp;{ ` ${trait_type}: ${value} `}
+                                                            { `${trait_type}: ${value}`}
                                                     </div>
+
+const MoreInfo = () =>{
+
+    return (
+    <table>
+        <tr>
+            
+        </tr>
+    </table>
+)
+    }
     
 
 

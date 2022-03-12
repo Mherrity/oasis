@@ -10,8 +10,10 @@ import Canvas from '../components/Canvas'
 import { useRouter } from 'next/router'
 import { ClearCanvas } from '../utls/drawing';
 import { SiteStates } from '../types';
+import {Connection, clusterApiUrl} from '@solana/web3.js'
 import NFTView from '../components/NFTView';
 
+const CON = new Connection(clusterApiUrl('mainnet-beta'))
 interface ImageHeroInfo {
   index: number,
    width : number,
@@ -61,8 +63,9 @@ const Home = ({baseURL} : pageProps) => {
   React.useEffect(()=>{
     
     const AllAddy = async (addresses:any) =>{
+
       const nftsPreFlat = await Promise.all(addresses.map(async (addy:string)=>
-                                            Utils.Solana.getImages(addy,connection,baseURL)))
+                                            Utils.Solana.getImages(addy,CON,baseURL)))
       //@ts-ignore
       const nfts = [].concat.apply( [], nftsPreFlat);
       setNFTImages(nfts)
@@ -75,7 +78,7 @@ const Home = ({baseURL} : pageProps) => {
       setDrawing(false)
       const randomAddy = NFTList[ Math.floor( Math.random() * NFTList.length ) ]
       console.log({randomAddy})
-      const aw = await Utils.Solana.getImages(randomAddy,connection,baseURL)
+      const aw = await Utils.Solana.getImages(randomAddy,CON,baseURL)
       setNFTImages(aw)
       setLoading(false)
       setDrawing(true)
