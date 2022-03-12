@@ -7,6 +7,7 @@ import { getParsedNftAccountsByOwner,isValidSolanaAddress, createConnectionConfi
   //get NFT
 export const getAllNftData = async (provider: Connection, publicKey : string) => {
       try {
+          console.log({publicKey})
           const nfts = await getParsedNftAccountsByOwner({
             publicAddress: publicKey,
             connection: provider,
@@ -64,13 +65,13 @@ export const useNFTs = (pubKey : string | undefined, connection: Connection) => 
 export const parseNFTsEth = async (hostName:string, addy:string) => {
     //TODO 
     const {data} = await queryAPI(`${hostName}/api/nftz?address=${addy}`,null,'GET',{})
-    console.log({data})
-    const images = data.result.map(({metadata}:any):HTMLImageElement | null=>{
+   
+    const images = data.result.map(({metadata}:any):any=>{
         const parsedData = JSON.parse(metadata)
         if(parsedData && parsedData.image){
         let img = new Image()
         img.src = makeIPFS(parsedData.image)
-        return img
+        return {img, ...parsedData}
         }
         return null
     })
@@ -85,14 +86,19 @@ export const parseNftsSol = async (addy:string, connection:Connection) => {
 
     //pasrsing all Metadata
     const parsedNFTs = await Promise.all( nfts!.map(async({data})=>{
-        let jsonData =  await fetch(data.uri) 
+        let jsonData =  await fetch(data.uri)
         return await jsonData.json()
     } ) )
 
-    const images = parsedNFTs.map(({image})=>{
+    const images = parsedNFTs.map((data:any)=>{
+      if(data?.image){
       let img =  new Image()
-      img.src = makeIPFS(image)
-      return img
+      img.src = makeIPFS(data.image)
+      return {img, ...data}
+      }
+      else{
+          return null
+      }
     }
     )
    return images.filter((img)=> img)

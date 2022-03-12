@@ -1,12 +1,9 @@
 import * as React from 'react'
 import { calcDistance } from '../../utls/math';
 
-const drawImage = (img: typeof Image, context:any, x:number,y:number, dimensions : any) => {
+const drawImage = (img: typeof Image, context:any, x:number,y:number, width:number, height:number) => 
+    context.drawImage(img, x - width/2, y - height/2, width, height);
   
-    const size = 150 + Math.random() * 150
-
-    context.drawImage(img, x - size/2, y - size/2, size,size);
-  }
 
 
 interface CanvasProps {
@@ -15,21 +12,22 @@ interface CanvasProps {
     dimensions: any,
     canvasRef : any,
     drawing: boolean,
-    loading : boolean
+    loading : boolean,
+    setImageInfo : any
 }
  const Canvas  = ({nftImages, 
                     mouse,
                     canvasRef,
                    dimensions,
                    drawing,
-                   loading
+                   loading,
+                   setImageInfo
                 }: CanvasProps) => {
 
     const [prevMouse, setPrevMouse] = React.useState({x:0,y:0})
 
     React.useEffect(()=>{
-        console.log({mouse})
-        console.log('to')
+  
         const {pageX, pageY,x,y} = mouse
 
         //Do we have null values
@@ -37,24 +35,33 @@ interface CanvasProps {
         //Getting mouse movement
         const distance = calcDistance({x:prevMouse.x,y:prevMouse.y},
                                         {x:pageX!, y: pageY!})
-        console.log({distance})
+       
         //if greater than 40 
         if(distance > 40){
 
             setPrevMouse({x:pageX!,y:pageY!}) //updating prevmouse position
-            console.log({loading})
+            
             if(!loading && canvasRef!=null && canvasRef.current!=null && nftImages.length > 0 ){
             let loaded = false 
             let img: HTMLImageElement
+            let index:number
+            let width, height:number
             while(loaded==false){
-            let index =  Math.floor( Math.random() * nftImages.length )
-            img = nftImages[index]
-            loaded = img.complete && img.naturalHeight!=0
+            index =  Math.floor( Math.random() * nftImages.length )
+            img = nftImages[index].img
+            if(img.complete && img.naturalHeight!=0){
+                loaded = img.complete && img.naturalHeight!=0
+                width = height = 150 + Math.random() * 150
+                setImageInfo({index,height,width})
+            }
             }
             //@ts-ignore
             console.log({img})
+
+            console.log('x',x,'y',y)
+            console.log()
             //@ts-ignore
-            drawImage(img,canvasRef.current.getContext('2d'), x,y, dimensions)  
+            drawImage(img,canvasRef.current.getContext('2d'), x,y, width, height)  
                     } 
                 }
             }
@@ -62,9 +69,10 @@ interface CanvasProps {
         [mouse])
 
                     return (
-                        <canvas ref={canvasRef} height={dimensions.y}
+                        <canvas ref={canvasRef} 
+                        height={dimensions.y}
                         width = {dimensions.x}
-                        style={{top:0, left: 0, position:'absolute', zIndex:-1000}}/>
+                        style={{top:0, left: 0, position:'absolute', zIndex:0}}/>
                     )
  }
 
