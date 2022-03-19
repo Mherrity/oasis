@@ -79,15 +79,15 @@ export async function findOwnedNameAccountsForUser(
     return accounts.map((a) => a);
   }
 
-export const resolveSNSName = async (address: string, con: Connection) => {
-    const pubKey = new PublicKey(address);
-    const acc = await findOwnedNameAccountsForUser(con,pubKey);
-    if(acc.length>0){
-    const name =  await performReverseLookup(con,acc[0].pubkey);
-    return name+'.sol'
-    }
-     return null
-}
+// export const resolveSNSName = async (address: string, con: Connection) => {
+//     const pubKey = new PublicKey(address);
+//     const acc = await findOwnedNameAccountsForUser(con,pubKey);
+//     if(acc.length>0){
+//     const name =  await performReverseLookup(con,acc[0].pubkey);
+//     return name+'.sol'
+//     }
+//      return null
+// }
 
 
 
@@ -167,7 +167,7 @@ export const parseNFTsEth = async (hostName:string, addy:string) => {
 }
 
 export const parseNftsSol = async (addy:string, connection:Connection) => {
-    const SolName =  await resolveSNSName(addy,connection);
+   
     const nfts = await getAllNftData(connection, addy);
 
     if(nfts==null){return []}
@@ -180,7 +180,7 @@ export const parseNftsSol = async (addy:string, connection:Connection) => {
 
         return {...nft, ...data, ...externalMetadata, 
             owner_of : addy, 
-            human_owner_name : SolName || make_addy_humnan_readable(addy)  }
+            human_owner_name : make_addy_humnan_readable(addy)  }
     } ) )
 
     const images = parsedNFTs.map((data:any)=>{
