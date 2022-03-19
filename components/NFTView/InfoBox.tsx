@@ -8,9 +8,11 @@ interface InfoBoxProps {
 const InfoBox = ({data}:InfoBoxProps) => {
     console.log({data})
     const {name,attributes,description,collection,mint,human_owner_name,updateAuthority,
-           owner_of,symbol,sellerFeeBasisPoints, creators,image, isMutable} = data
+           owner_of,symbol,sellerFeeBasisPoints, creators,image, isMutable,
+           contract_type, token_id, token_address } = data
     const infoData ={updateAuthority, mint, owner_of, symbol, image,
-                    sellerFeeBasisPoints, creators, isMutable}
+                    sellerFeeBasisPoints, creators, isMutable,
+                    contract_type, token_id, token_address }
     return (
         <>
         <SpaceBarText/>

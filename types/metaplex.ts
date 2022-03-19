@@ -36,7 +36,8 @@ export interface MetaData {
     updateAuthority: string,
     mint: string,
     isMutable: number,
-
-
-
+    //ERC STUFF
+    contract_type : string, 
+    token_address : string,
+    token_id: string
 }

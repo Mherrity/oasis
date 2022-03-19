@@ -199,10 +199,10 @@ export const parseNftsSol = async (addy:string, connection:Connection) => {
 
 export const make_addy_humnan_readable = (addy: string) => addy.substring(0,4) + '...' +addy.substring(addy.length-6,addy.length-1)
 //make the URL an IPFS resolvable UrL 
-const makeIPFS = (url:string) =>url.includes('ipfs://')?url.replace('ipfs://','https://ipfs.io/ipfs/'):url
+const makeIPFS = (url:string) => url.includes('ipfs://')?url.replace('ipfs://','https://ipfs.io/ipfs/'):url
 
 //Utility to find if address is SOL or not 
-const isSol=(addy:string)=>addy.substring(0,2)!='0x'
+export const isSol = (addy:string) => addy.substring(0,2)!='0x'
 
 // Used to call the right endpoint depending on if address is solana or not 
 export const getImages = async (addy:string, connection:Connection, hostName:string) => isSol(addy) ? 
