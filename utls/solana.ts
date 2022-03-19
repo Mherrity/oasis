@@ -197,7 +197,7 @@ export const parseNftsSol = async (addy:string, connection:Connection) => {
    return images.filter((img)=> img)
 }
 
-const make_addy_humnan_readable = (addy: string) => addy.substring(0,4) + '...' +addy.substring(addy.length-6,addy.length-1)
+export const make_addy_humnan_readable = (addy: string) => addy.substring(0,4) + '...' +addy.substring(addy.length-6,addy.length-1)
 //make the URL an IPFS resolvable UrL 
 const makeIPFS = (url:string) =>url.includes('ipfs://')?url.replace('ipfs://','https://ipfs.io/ipfs/'):url
 

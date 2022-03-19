@@ -1,15 +1,16 @@
 import * as React from 'react'
 import { MetaData, Attribute } from '../../types/metaplex'
-
-
+import MoreInfo from './MoreInfo'
 interface InfoBoxProps {
     data : MetaData
 }
 
 const InfoBox = ({data}:InfoBoxProps) => {
     console.log({data})
-    const {name,attributes,description,collection, human_owner_name} = data
-
+    const {name,attributes,description,collection,mint,human_owner_name,updateAuthority,
+           owner_of,symbol,sellerFeeBasisPoints, creators,image, isMutable} = data
+    const infoData ={updateAuthority, mint, owner_of, symbol, image,
+                    sellerFeeBasisPoints, creators, isMutable}
     return (
         <>
         <SpaceBarText/>
@@ -20,6 +21,7 @@ const InfoBox = ({data}:InfoBoxProps) => {
         <Header>Traits</Header>
         <Traits attributes={attributes || []} />
         <Header>More</Header>
+        <MoreInfo infoData = {infoData} />
         </>
     )
 }
@@ -68,16 +70,7 @@ const TraitBox = ({trait_type,value}:Attribute) => <div style={{background: 'rgb
                                                             { `${trait_type}: ${value}`}
                                                     </div>
 
-const MoreInfo = () =>{
 
-    return (
-    <table>
-        <tr>
-            
-        </tr>
-    </table>
-)
-    }
     
 
 
