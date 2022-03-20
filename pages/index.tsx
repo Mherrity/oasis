@@ -104,12 +104,8 @@ const Home = ({baseURL} : pageProps) => {
     })
   }
 
-  const DrawMode = (e:any) => {
-    console.log('bussin')
-    if(e.keyCode == 32 && siteState == 'NFTVIEW'){
-      setSite(SiteStates.DRAWING)
-    }
-  }
+  //free cursor when viewiing a specific nft 
+  const [cursorFree, freeCursor] = React.useState(false)
 
   //Need window dimensions to render the screen
   React.useEffect(()=>{
@@ -119,15 +115,6 @@ const Home = ({baseURL} : pageProps) => {
     })
   },[])
 
-  React.useEffect(()=>{
-    if(siteState == SiteStates.DRAWING){
-      document.body.onkeyup = ()=> null
-    }
-    if(siteState == SiteStates.NFTVIEW){
-      console.log('adding')
-      document.body.onkeyup = DrawMode
-    }
-  },[siteState])
 
   const computeImageStyle = () => {
     let x, y 
@@ -161,13 +148,13 @@ const Home = ({baseURL} : pageProps) => {
     ref={MouseRef}
     onClick={_=>{
       if(siteState==SiteStates.DRAWING){
-      console.log('changing')
       setSite(SiteStates.NFTVIEW)
       setImgStyle(computeImageStyle())
       }
-      else{
-        console.log({siteStateinVac : SiteStates.NFTVIEW})
+      if(siteState == SiteStates.NFTVIEW){
+        setSite(SiteStates.DRAWING)
       }
+
     }}
     style={{
       top:0,
@@ -175,12 +162,12 @@ const Home = ({baseURL} : pageProps) => {
     height:'100vh', 
     width:'100vw', 
     position:'absolute', 
-    zIndex : 600,
+    zIndex : cursorFree ? 400 : 600,
     display : 'flex',
     alignItems: 'center',
     justifyContent: 'flex-end',
     flexDirection : 'column',
-    cursor : siteState==SiteStates.NFTVIEW ? 'none': 'pointer'
+    cursor : siteState==SiteStates.NFTVIEW && !cursorFree ? 'none': 'pointer'
     }} > 
 
     {(!addresses && loading==false) && <SearchAddress ctx={ref} setDrawing={setDrawing} search={search} /> }
@@ -193,7 +180,10 @@ const Home = ({baseURL} : pageProps) => {
               imgStyle={imgStyle}
               nftsImages={nftsImages}
               imageInfo={imageInfo}
-              mouse={mouse}/>
+              mouse={mouse}
+              cursorFree={cursorFree}
+              freeCursor={freeCursor}
+              />
     
        
     <Canvas loading={ loading }
