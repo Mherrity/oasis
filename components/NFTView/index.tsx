@@ -55,7 +55,7 @@ const NFTView = ({siteState,nftsImages,mouse,imgStyle,imageInfo, cursorFree, fre
                left: pos.x,
                width: '300px',
                height: '10px',
-               cursor: 'pointer',
+               cursor: 'normal',
                zIndex : 557,
                }}>
                  

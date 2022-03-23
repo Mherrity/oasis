@@ -1,6 +1,8 @@
 import * as React from 'react'
+import {addParticle, updateParticle} from './Particle'
 import { make_addy_humnan_readable, isSol } from '../../utls/solana'
-
+import CrazyButton, {Particle} from './CrazyCopy' 
+import {useRaf} from 'rooks'
 const MoreInfo = ({infoData} : any) =>{
     return (
     <table style={{fontSize:'12px', width:'100%'}}>
@@ -44,7 +46,7 @@ const keyMappings = {
 const ValueMappings = ({heading,value}:any) => (
     <>
     { heading=='owner_of' && <OwnerAddress addy={value}/> }
-    { ['updateAuthority','mint'].includes(heading) && <SolScanLink addy={value}/>}
+    { ['updateAuthority','mint'].includes(heading) && <SolScanLink key='1' addy={value}/>}
     { heading == 'creators' && <NormalText value={value.length}/> }
     { heading == 'sellerFeeBasisPoints' && <NormalText value={`${(value/100.0).toFixed(2)}%`} /> }
     { heading == 'isMutable' && <NormalText value={value==1 ? 'True' : 'False'} /> }
@@ -62,11 +64,52 @@ const OwnerAddress = ({addy}:any) => (
 )
 
 
-const SolScanLink = ({addy}:any) => (
+const SolScanLink = ({addy}:any) =>{
+const [Particles, SetParticles] = React.useState([])
+const [particleStyle, SetParticleStyle] = React.useState()
+
+  const copyToClipBoard =  async (e:any) =>   {
+    await navigator.clipboard.writeText(addy)
+    addParticle(SetParticles,SetParticleStyle,e)
+  }
+
+  const $root = React.useRef()
+
+  useRaf(() => {
+
+    //@ts-ignore
+    if(particleStyle!=undefined && particleStyle.x!=undefined){
+
+    updateParticle(SetParticles,SetParticleStyle,particleStyle)
+    }
+
+    //@ts-ignore
+    if(particleStyle && particleStyle.life < 0) {
+        SetParticles([])
+        SetParticleStyle(undefined)
+    }
+
+  }, true)
+
+
+  return  (
+
+    <div style={{display : 'flex', alignItems : 'center'}}>
+
     <a href = {`https://solscan.io/account/${addy}`} style={{textDecoration: 'underline'}}>
         {make_addy_humnan_readable(addy)} &#8599;
     </a>
+
+    <span> &nbsp; </span>
+
+    
+        <img ref={$root as any} src='/copy.svg' height='12px' alt='copy' onClick={copyToClipBoard}/>
+
+        {Particles}
+   
+    </div>
 )
+     }
 
 const EthScanLink = ({addy}:any) => (
     <a href = {`https://etherscan.io/address/${addy}`} style={{textDecoration: 'underline'}}>

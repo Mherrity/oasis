@@ -29,7 +29,7 @@ const InfoBox = ({data}:InfoBoxProps) => {
 }
 
 const SpaceBarText = () => <div style={{fontSize:'12px', fontFamily:'suisee', opacity: 0.25, marginBottom:'10px'}}
-> *hold space to free cursor </div>
+> *press space to free cursor </div>
 
 const NameDisplay = ({name}:any) => <div style={{fontSize:'12px', fontFamily:'suisee-medium',marginBottom:'5px'}}>
                                     {name}
